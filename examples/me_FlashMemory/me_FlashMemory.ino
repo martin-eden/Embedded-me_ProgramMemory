@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-09
+  Last mod.: 2024-12-12
 */
 
 #include <me_BaseTypes.h>
@@ -30,9 +30,20 @@ void PrintSegmentData(
   me_MemorySegment::TMemorySegment MemSeg
 )
 {
+  using
+    me_MemorySegment::TSegmentIterator,
+    me_MemorySegment::Freetown::GetUnit;
+
+  TSegmentIterator Rator;
+  TUnit Unit;
+
   Console.Indent();
-  for (TUint_2 Index = 0; Index < MemSeg.Size; ++Index)
-    Console.Print(MemSeg.Bytes[Index]);
+
+  Rator.Init(MemSeg, GetUnit);
+
+  while (Rator.GetNext(&Unit))
+    Console.Print(Unit);
+
   Console.Unindent();
 
   Console.EndLine();
@@ -42,13 +53,16 @@ void RunTest()
 {
   Console.Print("Flash memory test.");
 
-  static const TUint_1 ReferenceValues[] [[gnu::progmem]] = { 31, 32, 33 };
+  static const TUint_1 ReferenceValues[] [[gnu::progmem]] =
+    { 31, 32, 33 };
 
   using
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::Freetown::Reserve,
-    me_MemorySegment::Freetown::Release;
+    me_MemorySegment::Freetown::Release,
+    me_FlashMemory::GetByte,
+    me_FlashMemory::GetSegment;
 
   TMemorySegment FlashSeg =
     FromAddrSize((TUint_2) ReferenceValues, sizeof(ReferenceValues));
@@ -60,7 +74,7 @@ void RunTest()
     TUint_1 Value;
     TBool IsDone;
 
-    IsDone = me_FlashMemory::GetByte(&Value, FlashSeg.Addr);
+    IsDone = GetByte(&Value, FlashSeg.Addr);
 
     if (!IsDone)
     {
@@ -84,7 +98,7 @@ void RunTest()
   {
     TBool IsDone;
 
-    IsDone = me_FlashMemory::GetSegment(SramSeg, FlashSeg);
+    IsDone = GetSegment(SramSeg, FlashSeg);
 
     if (!IsDone)
     {

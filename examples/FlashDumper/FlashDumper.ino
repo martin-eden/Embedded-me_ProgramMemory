@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-10
+  Last mod.: 2024-12-12
 */
 
 #include <me_BaseTypes.h>
@@ -10,20 +10,43 @@
 #include <me_Console.h>
 #include <me_Uart.h>
 #include <me_UartSpeeds.h>
+#include <me_MemorySegment.h>
 
 void DumpFlash()
 {
-  TUint_2 FlashAddr = 0;
+  const TUint_2 FlashSize = 32 * 1024L;
+  const TUint_1 NumColumns = 16;
 
-  TUint_1 Value;
+  using
+    me_MemorySegment::TMemorySegment,
+    me_MemorySegment::Freetown::FromAddrSize,
+    me_MemorySegment::TSegmentIterator,
+    me_FlashMemory::GetByte;
+
+  TSegmentIterator Rator;
+  TMemorySegment FlashSeg = FromAddrSize(0, FlashSize);
+  TUnit Unit;
 
   Console.Print("(");
   Console.Indent();
-  while (me_FlashMemory::GetByte(&Value, FlashAddr))
+
+  Rator.Init(FlashSeg, GetByte);
+
+  TUint_1 Column = 1;
+
+  while (Rator.GetNext(&Unit))
   {
-    Console.Print(Value);
-    ++FlashAddr;
+    Console.Print(Unit);
+
+    ++Column;
+
+    if (Column > NumColumns)
+    {
+      Console.EndLine();
+      Column = 1;
+    }
   }
+
   Console.EndLine();
   Console.Unindent();
   Console.Print(")");
@@ -31,7 +54,7 @@ void DumpFlash()
 
 void setup()
 {
-  me_Uart::Init(me_UartSpeeds::Bps_2M);
+  me_Uart::Init(me_UartSpeeds::Bps_115k);
   DumpFlash();
 }
 
@@ -41,4 +64,5 @@ void loop()
 
 /*
   2024-12-10
+  2024-12-12
 */
