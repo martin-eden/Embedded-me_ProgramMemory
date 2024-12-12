@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-10
+  Last mod.: 2024-12-12
 */
 
 #pragma once
@@ -13,9 +13,9 @@
 namespace me_FlashMemory
 {
   // Read byte from program memory
-  TBool GetByte(
-    TUint_1 * Value,
-    TUint_2 FlashAddress
+  TBool GetUnit(
+    TUnit * Unit,
+    TAddress Address
   );
 
   // Read segment from program memory
@@ -27,4 +27,5 @@ namespace me_FlashMemory
 
 /*
   2024-12-09
+  2024-12-12
 */

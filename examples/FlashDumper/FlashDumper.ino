@@ -11,28 +11,32 @@
 #include <me_Uart.h>
 #include <me_UartSpeeds.h>
 #include <me_MemorySegment.h>
+#include <me_UnoAddresses.h>
+
+using namespace me_FlashMemory;
 
 void DumpFlash()
 {
-  const TUint_2 FlashSize = 32 * 1024L;
   const TUint_1 NumColumns = 16;
 
   using
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::TSegmentIterator,
-    me_FlashMemory::GetByte;
+    me_FlashMemory::GetUnit,
+    me_UnoAddresses::FlashSize;
 
   TSegmentIterator Rator;
   TMemorySegment FlashSeg = FromAddrSize(0, FlashSize);
   TUnit Unit;
+  TUint_1 Column;
 
   Console.Print("(");
   Console.Indent();
 
-  Rator.Init(FlashSeg, GetByte);
+  Rator.Init(FlashSeg, GetUnit);
 
-  TUint_1 Column = 1;
+  Column = 1;
 
   while (Rator.GetNext(&Unit))
   {

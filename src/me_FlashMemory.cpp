@@ -2,37 +2,38 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-10
+  Last mod.: 2024-12-12
 */
 
 #include <me_FlashMemory.h>
 
 #include <me_BaseTypes.h>
 #include <me_MemorySegment.h>
+#include <me_UnoAddresses.h>
 
-// Flash size minus one. Should move this to some other module.
-// (That's also known as FLASHEND macro. But we don't like macros.)
-const TUint_2 MaxFlashAddr = (TUint_2) 32 * 1024 - 1;
+using
+  me_MemorySegment::TMemorySegment,
+  me_UnoAddresses::MaxFlashAddr;
 
 /*
   Get byte from program memory
 */
-TBool me_FlashMemory::GetByte(
-  TUint_1 * Byte,
-  TUint_2 FlashAddr
+TBool me_FlashMemory::GetUnit(
+  TUnit * Unit,
+  TAddress FlashAddr
 )
 {
-  // Check that address is inside RAM
+  // Fail if address is outside Flash
   if (FlashAddr > MaxFlashAddr)
     return false;
 
   asm volatile
   (
     R"(
-      lpm %[Byte], Z
+      lpm %[Unit], Z
     )"
     :
-    [Byte] "=r" (*Byte)
+    [Unit] "=r" (*Unit)
     :
     [FlashAddr] "z" (FlashAddr)
   );
@@ -44,29 +45,32 @@ TBool me_FlashMemory::GetByte(
   Get memory segment from program memory
 */
 TBool me_FlashMemory::GetSegment(
-  me_MemorySegment::TMemorySegment DestMemSeg,
-  me_MemorySegment::TMemorySegment SrcFlashSeg
+  TMemorySegment DestMemSeg,
+  TMemorySegment SrcFlashSeg
 )
 {
   /*
-    Well, we can just call GetByte() in a loop here.
+    Well, we can just call GetUnit() in a loop here.
     But ATmega328P has "LPM r, Z+". Indirect load byte
     from flash and increment pointer.
 
     So we'll craft another piece of asm code.
   */
 
-  TUint_1 Storage;
+  TUnit Unit;
 
   if (SrcFlashSeg.Size == 0)
     return true;
 
+  // No memory to hold expected data? Fail.
   if (DestMemSeg.Size < SrcFlashSeg.Size)
     return false;
 
   // Check that we won't leave flash address space
   {
-    TUint_4 FlashEndAddr = (TUint_4) SrcFlashSeg.Addr + SrcFlashSeg.Size - 1;
+    TUint_4 FlashEndAddr =
+      (TUint_4) SrcFlashSeg.Addr + SrcFlashSeg.Size - 1;
+
     if (FlashEndAddr > MaxFlashAddr)
       return false;
   }
@@ -76,14 +80,14 @@ TBool me_FlashMemory::GetSegment(
     R"(
       DataLoop_Start:
 
-        lpm %[Storage], Z+
-        st X+, %[Storage]
+        lpm %[Unit], Z+
+        st X+, %[Unit]
 
         sbiw %[RemainedLength], 1
         brne DataLoop_Start
     )"
     :
-    [Storage] "=r" (Storage),
+    [Unit] "=r" (Unit),
     [RemainedLength] "+w" (SrcFlashSeg.Size)
     :
     [MemAddr] "x" (DestMemSeg.Addr),
@@ -95,4 +99,5 @@ TBool me_FlashMemory::GetSegment(
 
 /*
   2024-12-09
+  2024-12-12
 */

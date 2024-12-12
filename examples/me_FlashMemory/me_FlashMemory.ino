@@ -61,7 +61,7 @@ void RunTest()
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::Freetown::Reserve,
     me_MemorySegment::Freetown::Release,
-    me_FlashMemory::GetByte,
+    me_FlashMemory::GetUnit,
     me_FlashMemory::GetSegment;
 
   TMemorySegment FlashSeg =
@@ -74,7 +74,7 @@ void RunTest()
     TUint_1 Value;
     TBool IsDone;
 
-    IsDone = GetByte(&Value, FlashSeg.Addr);
+    IsDone = GetUnit(&Value, FlashSeg.Addr);
 
     if (!IsDone)
     {
