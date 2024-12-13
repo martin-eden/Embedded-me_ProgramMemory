@@ -23,7 +23,7 @@ void DumpFlash()
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::TSegmentIterator,
-    me_FlashMemory::GetUnit,
+    me_FlashMemory::UnitGetter,
     me_UnoAddresses::FlashSize;
 
   TSegmentIterator Rator;
@@ -34,7 +34,7 @@ void DumpFlash()
   Console.Print("(");
   Console.Indent();
 
-  Rator.Init(FlashSeg, GetUnit);
+  Rator.Init(FlashSeg, UnitGetter);
 
   Column = 1;
 

@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-12
+  Last mod.: 2024-12-13
 */
 
 #pragma once
@@ -23,9 +23,16 @@ namespace me_FlashMemory
     me_MemorySegment::TMemorySegment MemSegCopy,
     me_MemorySegment::TMemorySegment FlashSeg
   ) __attribute__ ((optimize("O1")));
+
+  // Unit getter for iterators
+  TBool UnitGetter(
+    TAddress DestUnitAddr,
+    TAddress SrcUnitAddr
+  );
 }
 
 /*
   2024-12-09
   2024-12-12
+  2024-12-13
 */

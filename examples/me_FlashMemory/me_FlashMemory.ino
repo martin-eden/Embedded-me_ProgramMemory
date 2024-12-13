@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-12
+  Last mod.: 2024-12-13
 */
 
 #include <me_BaseTypes.h>
@@ -32,14 +32,14 @@ void PrintSegmentData(
 {
   using
     me_MemorySegment::TSegmentIterator,
-    me_MemorySegment::Freetown::GetUnit;
+    me_MemorySegment::Freetown::UnitGetter;
 
   TSegmentIterator Rator;
   TUnit Unit;
 
   Console.Indent();
 
-  Rator.Init(MemSeg, GetUnit);
+  Rator.Init(MemSeg, UnitGetter);
 
   while (Rator.GetNext(&Unit))
     Console.Print(Unit);

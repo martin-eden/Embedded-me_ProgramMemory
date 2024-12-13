@@ -17,13 +17,14 @@ using
 
 /*
   Get byte from program memory
+
+  Fails when address is outside Flash memory.
 */
 TBool me_FlashMemory::GetUnit(
   TUnit * Unit,
   TAddress FlashAddr
 )
 {
-  // Fail if address is outside Flash
   if (FlashAddr > MaxFlashAddr)
     return false;
 
@@ -43,6 +44,9 @@ TBool me_FlashMemory::GetUnit(
 
 /*
   Get memory segment from program memory
+
+  Fails when destination segment is too small
+  or when source segment not inside Flash memory.
 */
 TBool me_FlashMemory::GetSegment(
   TMemorySegment DestMemSeg,
@@ -96,6 +100,18 @@ TBool me_FlashMemory::GetSegment(
 
   return true;
 }
+
+/*
+  Unit getter for iterators
+*/
+TBool me_FlashMemory::UnitGetter(
+  TAddress DestUnitAddr,
+  TAddress SrcUnitAddr
+)
+{
+  return GetUnit((TUnit *) DestUnitAddr, SrcUnitAddr);
+}
+
 
 /*
   2024-12-09
