@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-12
+  Last mod.: 2024-12-15
 */
 
 #include <me_FlashMemory.h>
@@ -20,8 +20,8 @@ using
 
   Fails when address is outside Flash memory.
 */
-TBool me_FlashMemory::GetUnit(
-  TUnit * Unit,
+TBool me_FlashMemory::GetByte(
+  TUint_1 * Byte,
   TAddress FlashAddr
 )
 {
@@ -31,10 +31,10 @@ TBool me_FlashMemory::GetUnit(
   asm volatile
   (
     R"(
-      lpm %[Unit], Z
+      lpm %[Byte], Z
     )"
     :
-    [Unit] "=r" (*Unit)
+    [Byte] "=r" (*Byte)
     :
     [FlashAddr] "z" (FlashAddr)
   );
@@ -61,7 +61,7 @@ TBool me_FlashMemory::GetSegment(
     So we'll craft another piece of asm code.
   */
 
-  TUnit Unit;
+  TUint_1 Byte;
 
   if (SrcFlashSeg.Size == 0)
     return true;
@@ -84,14 +84,14 @@ TBool me_FlashMemory::GetSegment(
     R"(
       DataLoop_Start:
 
-        lpm %[Unit], Z+
-        st X+, %[Unit]
+        lpm %[Byte], Z+
+        st X+, %[Byte]
 
         sbiw %[RemainedLength], 1
         brne DataLoop_Start
     )"
     :
-    [Unit] "=r" (Unit),
+    [Byte] "=r" (Byte),
     [RemainedLength] "+w" (SrcFlashSeg.Size)
     :
     [MemAddr] "x" (DestMemSeg.Addr),
@@ -102,18 +102,7 @@ TBool me_FlashMemory::GetSegment(
 }
 
 /*
-  Unit getter for iterators
-*/
-TBool me_FlashMemory::UnitGetter(
-  TAddress DestUnitAddr,
-  TAddress SrcUnitAddr
-)
-{
-  return GetUnit((TUnit *) DestUnitAddr, SrcUnitAddr);
-}
-
-
-/*
   2024-12-09
   2024-12-12
+  2024-12-15
 */

@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-13
+  Last mod.: 2024-12-15
 */
 
 #pragma once
@@ -13,26 +13,21 @@
 namespace me_FlashMemory
 {
   // Read byte from program memory
-  TBool GetUnit(
-    TUnit * Unit,
+  TBool GetByte(
+    TUint_1 * Byte,
     TAddress Address
   );
 
-  // Read segment from program memory
+  // Copy segment from program memory
   TBool GetSegment(
     me_MemorySegment::TMemorySegment MemSegCopy,
     me_MemorySegment::TMemorySegment FlashSeg
   ) __attribute__ ((optimize("O1")));
-
-  // Unit getter for iterators
-  TBool UnitGetter(
-    TAddress DestUnitAddr,
-    TAddress SrcUnitAddr
-  );
 }
 
 /*
   2024-12-09
   2024-12-12
   2024-12-13
+  2024-12-15
 */
