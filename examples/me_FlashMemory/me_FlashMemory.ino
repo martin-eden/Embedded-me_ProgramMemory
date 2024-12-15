@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-13
+  Last mod.: 2024-12-15
 */
 
 #include <me_BaseTypes.h>
@@ -31,18 +31,26 @@ void PrintSegmentData(
 )
 {
   using
-    me_MemorySegment::TSegmentIterator,
-    me_MemorySegment::Freetown::UnitGetter;
+    me_MemorySegment::TSegmentIterator;
 
   TSegmentIterator Rator;
+  TAddress Addr;
   TUnit Unit;
 
   Console.Indent();
 
-  Rator.Init(MemSeg, UnitGetter);
+  if (!Rator.Init(MemSeg))
+  {
+    Console.Print("Iterator initialization failed.");
+    return;
+  }
 
-  while (Rator.GetNext(&Unit))
+  while (Rator.GetNext(&Addr))
+  {
+    Unit = *(TUnit *) Addr;
+
     Console.Print(Unit);
+  }
 
   Console.Unindent();
 
@@ -61,7 +69,7 @@ void RunTest()
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::Freetown::Reserve,
     me_MemorySegment::Freetown::Release,
-    me_FlashMemory::GetUnit,
+    me_FlashMemory::GetByte,
     me_FlashMemory::GetSegment;
 
   TMemorySegment FlashSeg =
@@ -74,7 +82,7 @@ void RunTest()
     TUint_1 Value;
     TBool IsDone;
 
-    IsDone = GetUnit(&Value, FlashSeg.Addr);
+    IsDone = GetByte(&Value, FlashSeg.Addr);
 
     if (!IsDone)
     {

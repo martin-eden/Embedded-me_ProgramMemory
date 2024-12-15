@@ -2,11 +2,12 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-12
+  Last mod.: 2024-12-15
 */
 
-#include <me_BaseTypes.h>
 #include <me_FlashMemory.h>
+
+#include <me_BaseTypes.h>
 #include <me_Console.h>
 #include <me_Uart.h>
 #include <me_UartSpeeds.h>
@@ -23,23 +24,34 @@ void DumpFlash()
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::TSegmentIterator,
-    me_FlashMemory::UnitGetter,
+    me_FlashMemory::GetByte,
     me_UnoAddresses::FlashSize;
 
-  TSegmentIterator Rator;
   TMemorySegment FlashSeg = FromAddrSize(0, FlashSize);
-  TUnit Unit;
+  TSegmentIterator Rator;
   TUint_1 Column;
+  TAddress Addr;
+  TUnit Unit;
+
+  if (!Rator.Init(FlashSeg))
+  {
+    Console.Print("Iterator initialization failed.");
+    return;
+  }
 
   Console.Print("(");
   Console.Indent();
 
-  Rator.Init(FlashSeg, UnitGetter);
-
   Column = 1;
 
-  while (Rator.GetNext(&Unit))
+  while (Rator.GetNext(&Addr))
   {
+    if (!GetByte(&Unit, Addr))
+    {
+      Console.Print("Getting byte failed.");
+      break;
+    }
+
     Console.Print(Unit);
 
     ++Column;
