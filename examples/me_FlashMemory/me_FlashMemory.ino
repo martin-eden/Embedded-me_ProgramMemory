@@ -17,83 +17,55 @@ void PrintSegmentWrappings(
   me_MemorySegment::TMemorySegment MemSeg
 )
 {
-  Console.Indent();
   Console.Write("Addr");
   Console.Print(MemSeg.Addr);
   Console.Write("Size");
   Console.Print(MemSeg.Size);
   Console.EndLine();
-  Console.Unindent();
 }
 
 void PrintSegmentData(
   me_MemorySegment::TMemorySegment MemSeg
 )
 {
-  using
-    me_MemorySegment::TSegmentIterator;
+  Console.Write("( ");
+  Console.Write(MemSeg);
+  Console.Write(" )");
+  Console.EndLine();
+}
 
-  TSegmentIterator Rator;
-  TAddress Addr;
-  TUnit Unit;
-
-  Console.Indent();
-
-  if (!Rator.Init(MemSeg))
-  {
-    Console.Print("Iterator initialization failed.");
-    return;
-  }
-
-  while (Rator.GetNext(&Addr))
-  {
-    Unit = *(TUnit *) Addr;
-
-    Console.Print(Unit);
-  }
-
-  Console.Unindent();
-
+void PrintFlashSegmentData(
+  me_MemorySegment::TMemorySegment FlashSeg
+)
+{
+  Console.Write("( ");
+  Console.WriteFlash(FlashSeg);
+  Console.Write(" )");
   Console.EndLine();
 }
 
 void RunTest()
 {
-  Console.Print("Flash memory test.");
-
-  static const TUint_1 ReferenceValues[] [[gnu::progmem]] =
-    { 31, 32, 33 };
-
   using
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::Freetown::Reserve,
     me_MemorySegment::Freetown::Release,
-    me_FlashMemory::GetByte,
     me_FlashMemory::GetSegment;
 
+  Console.Print("Flash memory test.");
+
+  static const TUint_1 ReferenceValues[] [[gnu::progmem]] =
+    { "Some data in Flash (aka program memory)." };
+
   TMemorySegment FlashSeg =
-    FromAddrSize((TUint_2) ReferenceValues, sizeof(ReferenceValues));
+    FromAddrSize((TUint_2) ReferenceValues, sizeof(ReferenceValues) - 1);
 
-  Console.Print("Reference segment");
+  Console.Print("Flash segment");
+  Console.Indent();
   PrintSegmentWrappings(FlashSeg);
-
-  {
-    TUint_1 Value;
-    TBool IsDone;
-
-    IsDone = GetByte(&Value, FlashSeg.Addr);
-
-    if (!IsDone)
-    {
-      Console.Print("Getting byte failed.");
-      return;
-    }
-
-    Console.Print("Got byte");
-    Console.Print(Value);
-    Console.EndLine();
-  }
+  PrintFlashSegmentData(FlashSeg);
+  Console.Unindent();
 
   TMemorySegment SramSeg;
 
@@ -115,9 +87,11 @@ void RunTest()
       return;
     }
 
-    Console.Print("Memory copy segment");
+    Console.Print("Memory segment (copy)");
+    Console.Indent();
     PrintSegmentWrappings(SramSeg);
     PrintSegmentData(SramSeg);
+    Console.Unindent();
   }
 
   Release(&SramSeg);
@@ -140,4 +114,5 @@ void loop()
 
 /*
   2024-12-09
+  2024-12-15
 */
