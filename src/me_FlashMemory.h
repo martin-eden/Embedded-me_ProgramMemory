@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-15
+  Last mod.: 2024-12-18
 */
 
 #pragma once
@@ -23,6 +23,9 @@ namespace me_FlashMemory
     me_MemorySegment::TMemorySegment MemSegCopy,
     me_MemorySegment::TMemorySegment FlashSeg
   ) __attribute__ ((optimize("O1")));
+
+  // TOperation: Get byte
+  TBool Op_GetByte(TAddress Data, TAddress Addr);
 }
 
 /*
@@ -30,4 +33,5 @@ namespace me_FlashMemory
   2024-12-12
   2024-12-13
   2024-12-15
+  2024-12-18
 */

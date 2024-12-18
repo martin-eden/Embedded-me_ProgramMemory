@@ -42,6 +42,16 @@ TBool me_FlashMemory::GetByte(
   return true;
 }
 
+// TOperation wrapper of GetByte()
+TBool me_FlashMemory::Op_GetByte(
+  TAddress Data,
+  TAddress Addr
+)
+{
+  return GetByte((TUint_1 *) Data, Addr);
+}
+
+
 /*
   Get memory segment from program memory
 
@@ -105,4 +115,5 @@ TBool me_FlashMemory::GetSegment(
   2024-12-09
   2024-12-12
   2024-12-15
+  2024-12-18
 */
