@@ -8,7 +8,6 @@
 #include <me_FlashMemory.h>
 
 #include <me_BaseTypes.h>
-#include <me_MemorySegment.h>
 #include <me_UnoAddresses.h>
 
 using
@@ -49,66 +48,6 @@ TBool me_FlashMemory::Op_GetByte(
 )
 {
   return GetByte((TUint_1 *) Data, Addr);
-}
-
-
-/*
-  Get memory segment from program memory
-
-  Fails when destination segment is too small
-  or when source segment not inside Flash memory.
-*/
-TBool me_FlashMemory::GetSegment(
-  TMemorySegment DestMemSeg,
-  TMemorySegment SrcFlashSeg
-)
-{
-  /*
-    Well, we can just call GetUnit() in a loop here.
-    But ATmega328P has "LPM r, Z+". Indirect load byte
-    from flash and increment pointer.
-
-    So we'll craft another piece of asm code.
-  */
-
-  TUint_1 Byte;
-
-  if (SrcFlashSeg.Size == 0)
-    return true;
-
-  // No memory to hold expected data? Fail.
-  if (DestMemSeg.Size < SrcFlashSeg.Size)
-    return false;
-
-  // Check that we won't leave flash address space
-  {
-    TUint_4 FlashEndAddr =
-      (TUint_4) SrcFlashSeg.Addr + SrcFlashSeg.Size - 1;
-
-    if (FlashEndAddr > MaxFlashAddr)
-      return false;
-  }
-
-  asm volatile
-  (
-    R"(
-      DataLoop_Start:
-
-        lpm %[Byte], Z+
-        st X+, %[Byte]
-
-        sbiw %[RemainedLength], 1
-        brne DataLoop_Start
-    )"
-    :
-    [Byte] "=r" (Byte),
-    [RemainedLength] "+w" (SrcFlashSeg.Size)
-    :
-    [MemAddr] "x" (DestMemSeg.Addr),
-    [FlashAddr] "z" (SrcFlashSeg.Addr)
-  );
-
-  return true;
 }
 
 /*

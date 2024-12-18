@@ -18,12 +18,6 @@ namespace me_FlashMemory
     TAddress Address
   );
 
-  // Copy segment from program memory
-  TBool GetSegment(
-    me_MemorySegment::TMemorySegment MemSegCopy,
-    me_MemorySegment::TMemorySegment FlashSeg
-  ) __attribute__ ((optimize("O1")));
-
   // TOperation: Get byte
   TBool Op_GetByte(TAddress Data, TAddress Addr);
 }
