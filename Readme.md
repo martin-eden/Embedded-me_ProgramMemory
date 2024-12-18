@@ -2,7 +2,7 @@
 
 (2024-12)
 
-Flash memory reading. Arduino library.
+Program memory reading. Arduino library.
 
 Well, we have `pgmspace.h` but it's messy.
 
@@ -13,8 +13,7 @@ Here is no `#ifdef`'s, no macros and only two asm functions.
 * [Interface][Interface]
 * [Implementation][Implementation]
 * Examples
-  * [DemoTest][DemoTest]
-  * [Flash dumper][FlashDumper] - dump whole program memory
+  * [Flash dumper][ProgramDumper] - dump whole program memory
 
 ## Requirements
 
@@ -43,10 +42,9 @@ arduino-cli compile --fqbn arduino:avr:uno --quiet --warnings all . --build-prop
 * [My other embedded C++ libraries][Embedded]
 * [My other repositories][Repos]
 
-[Interface]: src/me_FlashMemory.h
-[Implementation]: src/me_FlashMemory.cpp
-[DemoTest]: examples/me_FlashMemory/me_FlashMemory.ino
-[FlashDumper]: examples/FlashDumper/FlashDumper.ino
+[Interface]: src/me_ProgramMemory.h
+[Implementation]: src/me_ProgramMemory.cpp
+[ProgramDumper]: examples/ProgramDumper/ProgramDumper.ino
 
 [GetLibs]: https://github.com/martin-eden/Embedded-Framework-GetLibs
 

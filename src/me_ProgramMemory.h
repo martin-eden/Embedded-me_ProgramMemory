@@ -10,7 +10,7 @@
 #include <me_BaseTypes.h>
 #include <me_MemorySegment.h>
 
-namespace me_FlashMemory
+namespace me_ProgramMemory
 {
   // Read byte from program memory
   TBool GetByte(

@@ -1,11 +1,11 @@
-// Print contents of flash memory
+// Print contents of program memory
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-15
+  Last mod.: 2024-12-18
 */
 
-#include <me_FlashMemory.h>
+#include <me_ProgramMemory.h>
 
 #include <me_BaseTypes.h>
 #include <me_Console.h>
@@ -13,8 +13,6 @@
 #include <me_UartSpeeds.h>
 #include <me_MemorySegment.h>
 #include <me_UnoAddresses.h>
-
-using namespace me_FlashMemory;
 
 void DumpFlash()
 {
@@ -24,14 +22,14 @@ void DumpFlash()
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::TSegmentIterator,
-    me_FlashMemory::GetByte,
+    me_ProgramMemory::GetByte,
     me_UnoAddresses::FlashSize;
 
   TMemorySegment FlashSeg = FromAddrSize(0, FlashSize);
   TSegmentIterator Rator;
   TUint_1 Column;
   TAddress Addr;
-  TUnit Unit;
+  TUint_1 Byte;
 
   if (!Rator.Init(FlashSeg))
   {
@@ -46,13 +44,13 @@ void DumpFlash()
 
   while (Rator.GetNext(&Addr))
   {
-    if (!GetByte(&Unit, Addr))
+    if (!GetByte(&Byte, Addr))
     {
       Console.Print("Getting byte failed.");
       break;
     }
 
-    Console.Print(Unit);
+    Console.Print(Byte);
 
     ++Column;
 

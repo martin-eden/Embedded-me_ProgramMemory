@@ -5,10 +5,12 @@
   Last mod.: 2024-12-15
 */
 
-#include <me_FlashMemory.h>
+#include <me_ProgramMemory.h>
 
 #include <me_BaseTypes.h>
 #include <me_UnoAddresses.h>
+
+using namespace me_ProgramMemory;
 
 using
   me_MemorySegment::TMemorySegment,
@@ -19,7 +21,7 @@ using
 
   Fails when address is outside Flash memory.
 */
-TBool me_FlashMemory::GetByte(
+TBool me_ProgramMemory::GetByte(
   TUint_1 * Byte,
   TAddress FlashAddr
 )
@@ -42,7 +44,7 @@ TBool me_FlashMemory::GetByte(
 }
 
 // TOperation wrapper of GetByte()
-TBool me_FlashMemory::Op_GetByte(
+TBool me_ProgramMemory::Op_GetByte(
   TAddress Data,
   TAddress Addr
 )
