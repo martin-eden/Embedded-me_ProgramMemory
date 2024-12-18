@@ -22,10 +22,9 @@ void DumpFlash()
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::TSegmentIterator,
-    me_ProgramMemory::GetByte,
-    me_UnoAddresses::FlashSize;
+    me_ProgramMemory::GetByte;
 
-  TMemorySegment FlashSeg = FromAddrSize(0, FlashSize);
+  TMemorySegment FlashSeg = FromAddrSize(0, me_ProgramMemory::Size);
   TSegmentIterator Rator;
   TUint_1 Column;
   TAddress Addr;
