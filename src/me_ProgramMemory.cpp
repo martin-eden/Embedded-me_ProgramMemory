@@ -8,13 +8,11 @@
 #include <me_ProgramMemory.h>
 
 #include <me_BaseTypes.h>
-#include <me_UnoAddresses.h>
 
 using namespace me_ProgramMemory;
 
 using
-  me_MemorySegment::TMemorySegment,
-  me_UnoAddresses::MaxFlashAddr;
+  me_MemorySegment::TMemorySegment;
 
 /*
   Get byte from program memory
@@ -26,7 +24,7 @@ TBool me_ProgramMemory::GetByte(
   TAddress FlashAddr
 )
 {
-  if (FlashAddr > MaxFlashAddr)
+  if (FlashAddr > MaxAddr)
     return false;
 
   asm volatile

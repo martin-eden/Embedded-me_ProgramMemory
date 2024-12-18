@@ -12,6 +12,13 @@
 
 namespace me_ProgramMemory
 {
+  // ( Program memory limits (depends of microprocessor)
+  // Size
+  const TUint_2 Size = 32 * 1024L;
+  // Maximum address
+  const TAddress MaxAddr = Size - 1;
+  // )
+
   // Read byte from program memory
   TBool GetByte(
     TUint_1 * Byte,
