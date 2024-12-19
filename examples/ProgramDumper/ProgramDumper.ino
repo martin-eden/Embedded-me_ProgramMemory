@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-18
+  Last mod.: 2024-12-19
 */
 
 #include <me_ProgramMemory.h>
@@ -10,9 +10,18 @@
 #include <me_BaseTypes.h>
 #include <me_Console.h>
 #include <me_Uart.h>
-#include <me_UartSpeeds.h>
 #include <me_MemorySegment.h>
-#include <me_UnoAddresses.h>
+
+void setup()
+{
+  me_Uart::Init(me_Uart::Speed_115k_Bps);
+
+  DumpFlash();
+}
+
+void loop()
+{
+}
 
 void DumpFlash()
 {
@@ -65,17 +74,8 @@ void DumpFlash()
   Console.Print(")");
 }
 
-void setup()
-{
-  me_Uart::Init(me_UartSpeeds::Bps_115k);
-  DumpFlash();
-}
-
-void loop()
-{
-}
-
 /*
   2024-12-10
   2024-12-12
+  2024-12-19
 */
