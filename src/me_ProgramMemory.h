@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-18
+  Last mod.: 2025-07-12
 */
 
 #pragma once
@@ -12,18 +12,17 @@
 
 namespace me_ProgramMemory
 {
-  // ( Program memory limits (depends of microprocessor)
+  // ( Program memory addresses span. CPU-dependent
   // Size
   const TUint_2 Size = 32 * 1024L;
+  // Minimum address
+  const TAddress MinAddr = 0;
   // Maximum address
   const TAddress MaxAddr = Size - 1;
   // )
 
   // Read byte from program memory
-  TBool GetByte(
-    TUint_1 * Byte,
-    TAddress Address
-  );
+  TBool GetByte(TUint_1 * Byte, TAddress Address);
 
   // TOperation: Get byte
   TBool Op_GetByte(TAddress Data, TAddress Addr);
@@ -35,4 +34,5 @@ namespace me_ProgramMemory
   2024-12-13
   2024-12-15
   2024-12-18
+  2025-07-12
 */

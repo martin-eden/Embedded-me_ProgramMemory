@@ -6,7 +6,7 @@ Program memory reading. Arduino library.
 
 Well, we have `pgmspace.h` but it's messy.
 
-Here is no `#ifdef`'s, no macros and only two asm functions.
+Here is no `#ifdef`'s, no macros and only one base function.
 
 ## Code
 
