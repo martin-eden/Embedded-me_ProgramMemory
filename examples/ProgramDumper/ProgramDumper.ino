@@ -2,39 +2,41 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2024-12-19
+  Last mod.: 2025-08-22
 */
 
 #include <me_ProgramMemory.h>
 
 #include <me_BaseTypes.h>
 #include <me_Console.h>
-#include <me_Uart.h>
 #include <me_MemorySegment.h>
 
-void setup()
-{
-  me_Uart::Init(me_Uart::Speed_115k_Bps);
-
-  DumpFlash();
-}
-
-void loop()
-{
-}
-
+/*
+  Dump program memory contents
+*/
 void DumpFlash()
 {
-  const TUint_1 NumColumns = 16;
+  /*
+    Idea in pseudocode is
+
+      a = 0
+      forever
+        if not GetByte(b, a)
+          break
+        print b
+        a = a + 1
+  */
 
   using
     me_MemorySegment::TMemorySegment,
     me_MemorySegment::Freetown::FromAddrSize,
-    me_MemorySegment::TSegmentIterator,
-    me_ProgramMemory::GetByte;
+    me_MemorySegment::TSegmentIterator;
 
-  TMemorySegment FlashSeg = FromAddrSize(0, me_ProgramMemory::Size);
+  const TUint_1 NumColumns = 16;
+
+  TMemorySegment FlashSeg = FromAddrSize(0, TUint_2_Max);
   TSegmentIterator Rator;
+
   TUint_1 Column;
   TAddress Addr;
   TUint_1 Byte;
@@ -52,11 +54,8 @@ void DumpFlash()
 
   while (Rator.GetNext(&Addr))
   {
-    if (!GetByte(&Byte, Addr))
-    {
-      Console.Print("Getting byte failed.");
+    if (!me_ProgramMemory::GetByteFrom(&Byte, Addr))
       break;
-    }
 
     Console.Print(Byte);
 
@@ -74,8 +73,18 @@ void DumpFlash()
   Console.Print(")");
 }
 
+void setup()
+{
+  Console.Init();
+
+  DumpFlash();
+}
+
+void loop()
+{
+}
+
 /*
-  2024-12-10
-  2024-12-12
-  2024-12-19
+  2024 # # #
+  2025-08-22
 */
