@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-22
+  Last mod.: 2025-08-25
 */
 
 #include <me_ProgramMemory.h>
@@ -52,7 +52,7 @@ void DumpFlash()
 
   Column = 1;
 
-  while (Rator.GetNext(&Addr))
+  while (Rator.GetNextAddr(&Addr))
   {
     if (!me_ProgramMemory::GetByteFrom(&Byte, Addr))
       break;
