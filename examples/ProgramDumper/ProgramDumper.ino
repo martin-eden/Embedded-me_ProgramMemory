@@ -26,13 +26,12 @@ void DumpFlash()
   */
 
   using
-    me_MemorySegment::TMemorySegment,
     me_MemorySegment::Freetown::FromAddrSize,
     me_MemorySegment::TSegmentIterator;
 
   const TUint_1 NumColumns = 16;
 
-  TMemorySegment FlashSeg = FromAddrSize(0, TUint_2_Max);
+  TAddressSegment FlashSeg = FromAddrSize(0, TUint_2_Max);
   TSegmentIterator Rator;
 
   TUint_1 Column;

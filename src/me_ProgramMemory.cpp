@@ -1,8 +1,8 @@
-// Flash memory access
+// Program memory access
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-22
+  Last mod.: 2025-08-27
 */
 
 #include <me_ProgramMemory.h>
