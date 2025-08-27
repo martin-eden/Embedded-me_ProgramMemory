@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-25
+  Last mod.: 2025-08-27
 */
 
 #include <me_ProgramMemory.h>
@@ -19,12 +19,10 @@ void DumpFlash()
   /*
     Idea in pseudocode is
 
-      a = 0
-      forever
-        if not GetByte(b, a)
-          break
+      addr = 0
+      while GetByte(b, addr)
         print b
-        a = a + 1
+        addr = addr + 1
   */
 
   using
