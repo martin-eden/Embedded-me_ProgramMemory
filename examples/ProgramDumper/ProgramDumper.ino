@@ -2,14 +2,14 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-27
+  Last mod.: 2025-08-29
 */
 
 #include <me_ProgramMemory.h>
 
 #include <me_BaseTypes.h>
+#include <me_BaseInterfaces.h>
 #include <me_Console.h>
-#include <me_MemorySegment.h>
 
 /*
   Dump program memory contents
@@ -25,14 +25,10 @@ void DumpFlash()
         addr = addr + 1
   */
 
-  using
-    me_MemorySegment::Freetown::FromAddrSize,
-    me_MemorySegment::TSegmentIterator;
-
   const TUint_1 NumColumns = 16;
 
-  TAddressSegment FlashSeg = FromAddrSize(0, TUint_2_Max);
-  TSegmentIterator Rator;
+  TAddressSegment FlashSeg = { .Addr = 0, .Size = TUint_2_Max };
+  TAddressIterator Rator;
 
   TUint_1 Column;
   TAddress Addr;
