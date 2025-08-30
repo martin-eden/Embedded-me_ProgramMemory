@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-27
+  Last mod.: 2025-08-30
 */
 
 #include <me_ProgramMemory.h>
@@ -11,58 +11,26 @@
 
 using namespace me_ProgramMemory;
 
-// Program memory last address. For ATmega328
-const TAddress MaxAddress = (TAddress) 32 * 1024 - 1;
-
-/*
-  Check address
-*/
-TBool me_ProgramMemory::CheckAddress(
-  TAddress Address
-)
-{
-  return (Address <= MaxAddress);
-}
-
 /*
   Get byte from program memory
 
-  Fails when address is outside Flash memory.
+  Fails when address is outside memory.
 */
-TBool me_ProgramMemory::GetByteFrom(
+TBool me_ProgramMemory::GetByteAt(
   TUint_1 * ByteValue,
-  TAddress FlashAddress
+  TAddress Address
 )
 {
-  if (!CheckAddress(FlashAddress))
+  if (!Freetown::CheckAddress(Address))
     return false;
 
-  asm volatile
-  (
-    R"(
-      lpm %[ByteValue], Z
-    )"
-    :
-    [ByteValue] "=r" (*ByteValue)
-    :
-    [FlashAddress] "z" (FlashAddress)
-  );
+  *ByteValue = Freetown::GetByteAt(Address);
 
   return true;
 }
 
 /*
-  Get byte in format of TOperation
-*/
-TBool me_ProgramMemory::Op_GetByte(
-  TAddress Data,
-  TAddress Address
-)
-{
-  return GetByteFrom((TUint_1 *) Data, Address);
-}
-
-/*
   2024 # # # #
   2025-08-22
+  2025-08-30
 */
