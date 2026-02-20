@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-30
+  Last mod.: 2026-02-20
 */
 
 #pragma once
@@ -11,13 +11,15 @@
 
 namespace me_ProgramMemory
 {
+  // Check flash address
+  TBool CheckAddress(TAddress Address);
+
   // Read byte from program memory
   TBool GetByteAt(TUint_1 * Byte, TAddress Address);
 
   // Core functions
   namespace Freetown
   {
-    TBool CheckAddress(TAddress Address);
     TUint_1 GetByteAt(TAddress Address);
   }
 }
@@ -48,8 +50,6 @@ namespace me_ProgramMemory
 
 /*
   2024 # # # # #
-  2025-07-12
-  2025-08-22
-  2025-08-27
-  2025-08-30
+  2025 # # # #
+  2026-02-20
 */

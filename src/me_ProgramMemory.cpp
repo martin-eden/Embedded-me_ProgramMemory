@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2025-08-30
+  Last mod.: 2026-02-20
 */
 
 #include <me_ProgramMemory.h>
@@ -10,6 +10,19 @@
 #include <me_BaseTypes.h>
 
 using namespace me_ProgramMemory;
+
+/*
+  Check address
+*/
+TBool me_ProgramMemory::CheckAddress(
+  TAddress Address
+)
+{
+  // Program memory last address. For ATmega328
+  const TAddress MaxAddress = (TAddress) 32 * 1024 - 1;
+
+  return (Address <= MaxAddress);
+}
 
 /*
   Get byte from program memory
@@ -21,7 +34,7 @@ TBool me_ProgramMemory::GetByteAt(
   TAddress Address
 )
 {
-  if (!Freetown::CheckAddress(Address))
+  if (!CheckAddress(Address))
     return false;
 
   *ByteValue = Freetown::GetByteAt(Address);
@@ -31,6 +44,5 @@ TBool me_ProgramMemory::GetByteAt(
 
 /*
   2024 # # # #
-  2025-08-22
-  2025-08-30
+  2025 # #
 */

@@ -12,19 +12,6 @@
 using namespace me_ProgramMemory;
 
 /*
-  Check address
-*/
-TBool Freetown::CheckAddress(
-  TAddress Address
-)
-{
-  // Program memory last address. For ATmega328
-  const TAddress MaxAddress = (TAddress) 32 * 1024 - 1;
-
-  return (Address <= MaxAddress);
-}
-
-/*
   Get byte from program memory
 */
 TUint_1 Freetown::GetByteAt(
@@ -45,5 +32,5 @@ TUint_1 Freetown::GetByteAt(
 
 /*
   2024 # # # #
-  2025-08-30
+  2025 #
 */
