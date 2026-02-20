@@ -29,9 +29,9 @@ namespace me_ProgramMemory
 
   Used as
 
-    Console.PrintProgmem(AsProgmemSeg("Hello"));
+    Console.PrintProgmem(M_AsProgmemSeg("Hello"));
 */
-#define AsProgmemSeg(Asciiz) \
+#define M_AsProgmemSeg(Asciiz) \
   ( \
     __extension__ \
     ( \
