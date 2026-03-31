@@ -15,7 +15,9 @@ namespace me_ProgramMemory
 
   namespace Description
   {
-    const TAddress MaxAddress = (TAddress) 32 * 1024 - 1;
+    const TUint_2 Size = (TUint_2) 32 * 1024;
+    const TAddress MaxAddress = Size - 1;
+    const TAddressSegment Segment = { .Addr = 0, .Size = Size };
 
     TBool CheckAddress(TAddress Address);
   }
