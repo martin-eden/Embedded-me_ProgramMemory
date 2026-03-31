@@ -11,7 +11,6 @@
 
 namespace me_ProgramMemory
 {
-  // Read byte from program memory
   TBool GetByteAt(TUint_1 * Byte, TAddress Address);
 
   namespace Description
