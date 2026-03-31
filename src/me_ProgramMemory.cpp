@@ -12,19 +12,6 @@
 using namespace me_ProgramMemory;
 
 /*
-  Check address
-*/
-TBool me_ProgramMemory::CheckAddress(
-  TAddress Address
-)
-{
-  // Program memory last address. For ATmega328
-  const TAddress MaxAddress = (TAddress) 32 * 1024 - 1;
-
-  return (Address <= MaxAddress);
-}
-
-/*
   Get byte from program memory
 
   Fails when address is outside memory.
@@ -34,10 +21,10 @@ TBool me_ProgramMemory::GetByteAt(
   TAddress Address
 )
 {
-  if (!CheckAddress(Address))
+  if (!Description::CheckAddress(Address))
     return false;
 
-  *ByteValue = Freetown::GetByteAt(Address);
+  Core::GetByteAt((TAddress) ByteValue, Address);
 
   return true;
 }

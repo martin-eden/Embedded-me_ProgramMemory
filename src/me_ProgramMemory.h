@@ -2,7 +2,7 @@
 
 /*
   Author: Martin Eden
-  Last mod.: 2026-02-20
+  Last mod.: 2026-03-31
 */
 
 #pragma once
@@ -11,16 +11,19 @@
 
 namespace me_ProgramMemory
 {
-  // Check flash address
-  TBool CheckAddress(TAddress Address);
-
   // Read byte from program memory
   TBool GetByteAt(TUint_1 * Byte, TAddress Address);
 
-  // Core functions
-  namespace Freetown
+  namespace Description
   {
-    TUint_1 GetByteAt(TAddress Address);
+    const TAddress MaxAddress = (TAddress) 32 * 1024 - 1;
+
+    TBool CheckAddress(TAddress Address);
+  }
+
+  namespace Core
+  {
+    void GetByteAt(TAddress DataPtr, TAddress);
   }
 }
 
@@ -52,4 +55,5 @@ namespace me_ProgramMemory
   2024 # # # # #
   2025 # # # #
   2026-02-20
+  2026-03-31
 */
